@@ -1,6 +1,15 @@
+
+
+// doubly_templatized_linked_list.h
+// Author: Siraj Qazi
+// Templatized Linked List v3.1
+// Dated: September 16th, 2018 10:01PM
+// Class <Generic>Node's class definition header file
+
+
+
 #include <iostream>
 #include <typeinfo>
-#include <type_traits>
 #include <string>
 #include <fstream>
 #include <conio.h>
@@ -11,10 +20,10 @@ template<typename Generic>          // Templatizing the class to make it Generic
 class Node
 {
 public:
-	Node(Generic input) : nodeData(input) {}
+	Node(Generic input) : nodeData(input),next(NULL),previous(NULL) {}
 	Generic nodeData;               // Generic object nodeData
 	Node* next;                     // (traditional) next pointer in a Node
-
+	Node* previous;                // Doubly linked
 	class LinkedList               // Nested Class LinkedList to apply same templatization to this class
 	{
 	public:
@@ -33,6 +42,31 @@ public:
 		}
 		*/
 
+		//void commenceOperation(void);                     // Chief Operation Function
+
+		//void insertionMenu(void);                         // INSERTION OPERATIONS 
+		//void insertAtStart(Generic);
+		//void insertAtEnd(Generic);
+		//void insertAtLocation(Generic, int);
+		//void continuousInputMode(void);
+
+		//void deletionMenu(void);                         // DELETION OPERATIONS 
+		//void deleteFirstNode(void);
+		//void deleteLastNode(void);
+		//void deleteSpecificNode(int);
+		//void deleteSpecificValue(Generic);
+		//void deleteList(void);
+
+		//void searchMenu(void);                           // SEARCH OPERATIONS
+		//void searchByIndex(int);
+		//void searchByValue(Generic);
+
+		//void printList(void);                            // PRINT OPERATIONS
+		//void printReversedList(void);
+
+		//void writeToFile(void);                          // FILE I/O OPERATIONS
+		//void readFromFile(void);
+
 		void insertAtStart(Generic input)     // Function to insert nodes to the left of the list [ O(1) ]
 		{
 			nodeCount++;
@@ -41,14 +75,18 @@ public:
 				Node* temp = new Node(input);
 				head = temp;
 				tail = temp;
+				tail->next = NULL;
+				head->previous = NULL;
 				cout << "\n Node created with data: " << temp->nodeData;
 			}
 			else
 			{
 				Node* temp = new Node(input);
 				temp->next = head;
+				head->previous = temp;
 				head = temp;
 				tail->next = NULL;
+				head->previous = NULL;
 				cout << "\n Node created with data: " << temp->nodeData << " ";
 			}
 		}
@@ -61,12 +99,17 @@ public:
 				Node* temp = new Node(input);
 				head = temp;
 				tail = temp;
+				tail->next = NULL;
+				tail->previous = NULL;
+				head->previous = NULL;
+				head->next = NULL;
 				cout << "\n Node created with data: " << temp->nodeData << " ";
 			}
 			else
 			{
 				Node* temp = new Node(input);
 				tail->next = temp;
+				temp->previous = tail;
 				tail = temp;
 				tail->next = NULL;
 				cout << "\n Node created with data: " << temp->nodeData << " ";
@@ -97,16 +140,17 @@ public:
 			}
 			Node* temp = new Node(input);
 			temp->next = ptr->next;
+			temp->previous = ptr;
 			ptr->next = temp;
 			cout << "\n New node with data " << temp->nodeData << " created at location " << location << " ";
 		}
 
-		void continousDataInputMode()
+		void continuousInputMode()
 		{
 			system("cls");
 			Generic var;
 			int size = 0;
-			cout << "\n ---------------------------- CONTINUOUS DATA INPUT M0DE ----------------------------\n";
+			cout << "\n -------------------------------- CONTINUOUS INPUT M0DE --------------------------------\n";
 			cout << "\n\n Keep entering successive node's data continuosly."
 				<< "\n Use <spacebar> or <enter> to identify separate nodes data."
 				<< "\n\n CIM requires the size of the list to operate: ";
@@ -143,6 +187,7 @@ public:
 			{
 				Node* temp = head;
 				head = head->next;
+				head->previous = NULL;
 				cout << "\n First node with data " << temp->nodeData << " deleted successfully. ";
 				delete temp;
 			}
@@ -158,12 +203,18 @@ public:
 			}
 			else
 			{
-				Node* ptr;
-				for (ptr = head; ptr->next != tail; ptr = ptr->next) {}
-				ptr->next = NULL;
-				cout << "\n Last node with data " << tail->nodeData << " deleted successfully. ";
-				delete tail;
-				tail = ptr;
+				//node* ptr;                 // Singly-linked implementation [ O(n) ]
+				//for (ptr = head; ptr->next != tail; ptr = ptr->next) {}
+				//ptr->next = null;       
+				//cout << "\n last node with data " << tail->nodedata << " deleted successfully. ";
+				//delete tail;
+				//tail = ptr;
+
+				Node* ptr = tail;            // Doubly-Linked implementation [ O(1) ]
+				tail = tail->previous;
+				tail->next = NULL;
+				cout << "\n Last node with data " << ptr->nodeData << " deleted successfully. ";
+				delete ptr;
 			}
 		}
 
@@ -183,13 +234,22 @@ public:
 					Sleep(2000);
 					deletionMenu();
 				}
-				Node* ptr;
+				/*Node* ptr;         // SINGLY-LINKED IMPLEMENTATION
 				int i;
 				for (ptr = head, i = 1; ptr->next != NULL && i < location - 1; ptr = ptr->next, ++i) {}
 				Node* toBeDeleted = ptr->next;
 				ptr->next = ptr->next->next;
+				ptr->next->previous = ptr;
 				cout << "\n Node " << location << " with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
-				delete toBeDeleted;
+				delete toBeDeleted;*/
+
+				Node* ptr;            //DOUBLY-LINKED IMPLEMENTATION    
+				int i;
+				for (ptr = head, i = 1; ptr->next != NULL && i < location ; ptr = ptr->next, ++i) {}
+				ptr->previous->next = ptr->next;
+				ptr->next->previous = ptr->previous;
+				cout << "\n Node " << location << " with data '" << ptr->nodeData << "' deleted successfully. ";
+				delete ptr;
 			}
 		}
 
@@ -204,6 +264,31 @@ public:
 			else
 			{
 				Node* ptr = head;
+				while (ptr != NULL && ptr->nodeData != input)
+				{
+					ptr = ptr->next;
+				}
+				if (ptr->next == NULL && ptr->nodeData!=input)
+				{
+					cout << "\n Data " << input << " not found in the list. ";
+					Sleep(2000);
+					deletionMenu();
+				}
+				else
+				{
+					if (ptr->next == NULL)
+					{
+						deleteLastNode();
+						cout << "\n Node with data '" << input << "' deleted successfully. ";
+						Sleep(2000);
+						commenceOperation();
+					}
+					ptr->previous->next = ptr->next;  // DOUBLY-LINKED IMPLEMENTATION
+					ptr->next->previous = ptr->previous;
+					cout << "\n Node with data '" << ptr->nodeData << "' deleted successfully. ";
+					delete ptr;
+				}
+				/*Node* ptr = head;
 				while (ptr->next != NULL && ptr->next->nodeData != input)
 				{
 					ptr = ptr->next;
@@ -221,7 +306,7 @@ public:
 					ptr->next = ptr->next->next;
 					cout << "\n Node with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
 					delete toBeDeleted;
-				}
+				}*/
 				/*for (ptr = head, i = 1; ((ptr->next != NULL && ptr->next->nodeData !=input) && i <= nodeCount); ++i) {}
 
 				cout << "\n Node " << i << " with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
@@ -250,16 +335,16 @@ public:
 				delete first;
 			}
 			cout << "\n Deleting nodes";
-			Sleep(800);
+			Sleep(500);
 			cout << ".";
-			Sleep(800);
+			Sleep(500);
 			cout << ".";
-			Sleep(800);
+			Sleep(500);
 			cout << ".";
 			cout << "\n Cleaning up memory";
-			Sleep(800);
+			Sleep(500);
 			cout << ".";
-			Sleep(800);
+			Sleep(600);
 			cout << ".";
 			Sleep(800);
 			cout << ".";
@@ -289,7 +374,6 @@ public:
 				for (ptr = head, i = 1; ptr->next != NULL && i < location; ++i)
 				{
 					ptr = ptr->next;
-
 				}
 				cout << "\n Data at Node '" << location << "' : '" << ptr->nodeData << "' ";
 			}
@@ -369,8 +453,9 @@ public:
 			}
 
 			system("cls");
+			system("color 0b");
 			cout << "\n ############### DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ###############\n\n"
-				<< "                                     ~ Version 3.0 ~\n"
+				<< "                                     ~ Version 3.1 ~\n"
 				<< "                                          @sqazi \n\n"
 				<< "                          CURRENT MODE OF OPERATION :: " << operatingType << "\n";
 			cout << "\n Press 1-9 to choose option:\n\n"
@@ -379,10 +464,11 @@ public:
 				<< "\t\t 3 - Search operations\n"
 				<< "\t\t 4 - Delete current linked list\n"
 				<< "\t\t 5 - Display current linked list\n"
-				<< "\t\t 6 - Change selected Data Structure type\n"
-				<< "\t\t 7 - Write current linked list to a file\n"
-				<< "\t\t 8 - Load a linked list from a file\n"
-				<< "\t\t 9 - Exit\n ";
+				<< "\t\t 6 - Display (reversed) current linked list\n"
+				<< "\t\t 7 - Change selected Data Structure type\n"
+				<< "\t\t 8 - Write current linked list to a file\n"
+				<< "\t\t 9 - Load a linked list from a file\n"
+				<< "\t\t x - Exit\n ";
 			char c = _getch();
 			switch (c)
 			{
@@ -422,21 +508,26 @@ public:
 				commenceOperation();
 
 			case '6':
-				main();
-				break;
+				printReversedList();
+				_getch();
+				commenceOperation();
 
 			case '7':
+				launchTemplatizedLinkedList();
+				break;
+
+			case '8':
 				writeToFile();
 				Sleep(2000);
 				commenceOperation();
 
-			case '8':
-				loadFromFile();
+			case '9':
+				readFromFile();
 				Sleep(2000);
 				commenceOperation();
 				break;
 
-			case '9':
+			case ('x'||'X'):
 				exit(0);
 
 			default:
@@ -489,7 +580,7 @@ public:
 				break;
 
 			case '4':
-				continousDataInputMode();
+				continuousInputMode();
 				break;
 
 			case '5':
@@ -540,7 +631,6 @@ public:
 				cin.clear();
 				deleteSpecificNode(loc);
 				nodeCount--;
-				cout << "\n Data at node " << loc << " deleted successfully.\n";
 				Sleep(2000);
 				commenceOperation();
 				break;
@@ -552,7 +642,6 @@ public:
 				deleteSpecificValue(var);
 				nodeCount--;
 				Sleep(2000);
-				_getch();
 				commenceOperation();
 				break;
 
@@ -611,6 +700,15 @@ public:
 		{
 			std::cout << "\n\n -------------------------------- CURRENT LINKED LIST --------------------------------\n\n\t";
 			for (Node* iter = head; iter != NULL; iter = iter->next)
+			cout << " " << iter->nodeData;
+			std::cout << "\n\n -------------------------------------------------------------------------------------\n";
+		}
+
+		void printReversedList()
+		{
+			std::cout << "\n\n -------------------------------- REVERSED LINKED LIST --------------------------------\n\n\t";
+
+			for (Node* iter = tail; iter != NULL; iter = iter->previous)
 				cout << " " << iter->nodeData;
 			std::cout << "\n\n -------------------------------------------------------------------------------------\n";
 		}
@@ -635,7 +733,7 @@ public:
 			cout << "\n Current linked-list written to file " << fileName << " ";
 		}
 
-		void loadFromFile()
+		void readFromFile()
 		{
 			cout << "\n Enter name of the file to load: ";
 			std::string fileName;
