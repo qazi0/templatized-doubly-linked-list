@@ -2,9 +2,12 @@
 
 // Source.cpp
 // Author: Siraj Qazi
-// Templatized Linked List v1.0
-// Dated: September 15th, 2018 1:23AM
-// Main() file
+// Templatized Linked List v2.0
+// Dated: September 15th, 2018 2:49AM
+// Main() File
+
+
+
 
 #include <iostream>
 #include <string>
@@ -15,7 +18,7 @@ int main()
 {
 	system("cls");
 	cout << "\n ################# DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ################\n";
-	cout << "                                     ~ Version 1.0 ~\n\n"
+	cout << "                                     ~ Version 2.0 ~\n\n"
 		<< " ########################################################################################\n";
 	cout << "\n Welcome. Choose your linked-list data type: \n";
 	cout << "\n Press 1-5 to select option:\n\n"
