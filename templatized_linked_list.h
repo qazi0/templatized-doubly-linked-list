@@ -2,11 +2,12 @@
 
 // templatized_linked_list.h
 // Author: Siraj Qazi
-// Templatized Linked List v1.0
-// Dated: September 15th, 2018 1:23AM
+// Templatized Linked List v2.0
+// Dated: September 15th, 2018 2:49AM
 // Class <Generic>Node's class definition header file
 
-#pragma once
+
+
 #include <iostream>
 #include <typeinfo>
 #include <string>
@@ -30,15 +31,15 @@ public:
 		int nodeCount;              // To keep track of total nodes (helps in bounds checking)
 		char operationMode;         // Store current operation mode of Linked List (int, float, char, etc)
 
-									/*
-									void checkInputType(Generic input)
-									{
-									bool valid = false;
-									const char* strType = typeid(input).name();   // Extract user input type (at runtime)
-									string inputTypeInString((LPCTSTR)strType);
-									}
-									*/
-
+		/*
+		void checkInputType(Generic input)
+		{
+			bool valid = false;
+			const char* strType = typeid(input).name();   // Extract user input type (at runtime)
+			string inputTypeInString((LPCTSTR)strType);
+		} 
+		*/
+		
 		void insertAtStart(Generic input)     // Function to insert nodes to the left of the list [ O(1) ]
 		{
 			nodeCount++;
@@ -107,6 +108,35 @@ public:
 			cout << "\n New node with data " << temp->nodeData << " created at location " << location << " ";
 		}
 
+		void continousDataInputMode()
+		{
+			system("cls");
+			Generic var;
+			int size = 0;
+			cout << "\n ---------------------------- CONTINUOUS DATA INPUT M0DE ----------------------------\n";
+			cout << "\n\n Keep entering successive node's data continuosly."
+				<< "\n Use <spacebar> or <enter> to identify separate nodes data."
+				<< "\n\n CIM requires the size of the list to operate: ";
+			cin >> size;
+			cout << "\n Begin entering data: ";
+			for (int i = 0; i < size; ++i)
+			{
+				cout << "\n";
+				cin >> var;
+				insertAtEnd(var);
+			}
+			if (head != NULL && tail != NULL)
+			{
+				cout << "\n All " << size << " data items added successfully to linked list. ";
+				Sleep(2500);
+			}
+			else
+			{
+				cout << "\n !!! SOME ERROR OCCURRED WHILE STORING DATA !!";
+				Sleep(2000);
+			}
+			insertionMenu();
+		}
 
 		void deleteFirstNode()  // Function to delete first node of the list [ O(1) ]
 		{
@@ -180,7 +210,7 @@ public:
 			}
 			else
 			{
-				Node* ptr = head;
+				Node* ptr=head;
 				while (ptr->next != NULL && ptr->next->nodeData != input)
 				{
 					ptr = ptr->next;
@@ -200,13 +230,13 @@ public:
 					delete toBeDeleted;
 				}
 				/*for (ptr = head, i = 1; ((ptr->next != NULL && ptr->next->nodeData !=input) && i <= nodeCount); ++i) {}
-
+				
 				cout << "\n Node " << i << " with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
-				*/
+				 */
 			}
 		}
 
-
+		
 
 		void searchByIndex(int location)  // Function to display data in a specified node of the list [ O(n) ]
 		{
@@ -234,7 +264,7 @@ public:
 				cout << "\n Data at Node '" << location << "' : '" << ptr->nodeData << "' ";
 			}
 		}
-
+		
 		void searchByValue(Generic data)
 		{
 			if (head == NULL)
@@ -248,7 +278,7 @@ public:
 				bool found = false;
 				Node* ptr;
 				int i, foundCount = 0;
-				for (ptr = head, i = 1; ptr != NULL && i <= nodeCount; ++i, ptr = ptr->next)
+				for (ptr = head, i = 1; ptr!= NULL && i <= nodeCount; ++i, ptr = ptr->next)
 				{
 					if (ptr->nodeData == data)
 					{
@@ -269,9 +299,9 @@ public:
 						cout << "\n No search results for '" << data << "' ";
 					/*else
 					{
-					cout << "\n\n Found " << foundCount << " matches to '" << data << "'.";
-					_getch();
-					searchMenu();
+						cout << "\n\n Found " << foundCount << " matches to '" << data << "'.";
+						_getch();
+						searchMenu();
 					} */
 				}
 				else
@@ -281,7 +311,7 @@ public:
 					searchMenu();
 				}
 
-
+				
 			}
 		}
 
@@ -408,7 +438,8 @@ public:
 				<< "\t\t 1 > Insert a node at the beginning of the Linked List\n"
 				<< "\t\t 2 > Insert a node at the end of the Linked List\n"
 				<< "\t\t 3 > Insert a node at a location in the Linked List\n"
-				<< "\t\t 4 > Back to Main Menu\n";
+				<< "\t\t 4 > Continuous Data Input Mode\n"
+				<< "\t\t 5 > Back to Main Menu\n";
 			char c = _getch();
 			Generic var;
 			switch (c)
@@ -442,11 +473,15 @@ public:
 				break;
 
 			case '4':
+				continousDataInputMode();
+				break;
+
+			case '5':
 				commenceOperation();
 				break;
 
 			default:
-				cout << "\n Press 1-4 only. <Press any Key> ";
+				cout << "\n Press 1-3 only. <Press any Key> ";
 				_getch();
 				insertionMenu();
 				break;
@@ -565,5 +600,4 @@ public:
 
 	};
 };
-
 
