@@ -3,7 +3,7 @@
 // templatized_linked_list.h
 // Author: Siraj Qazi
 // Templatized Linked List v2.0
-// Dated: September 15th, 2018 2:49AM
+// Dated: September 15th, 2018 1:16PM
 // Class <Generic>Node's class definition header file
 
 
@@ -11,6 +11,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <string>
+#include <fstream>
 #include <conio.h>
 #include <Windows.h>
 
@@ -236,6 +237,43 @@ public:
 			}
 		}
 
+		void deleteList()
+		{
+			cout << "\n This action is IRREVERSIBLE. Proceed (y/n)?";
+			char c = _getch();
+			if (c == 'n' || c == 'N')
+				commenceOperation();
+			else if (c != 'y' && c != 'Y')
+			{
+				cout << "\n Invalid input. ";
+				Sleep(700);
+				commenceOperation();
+			}
+			Node* temp = head;
+			while (temp != NULL)
+			{
+				Node* first = temp;
+				temp = temp->next;
+				head = temp;
+				delete first;
+			}
+			cout << "\n Deleting nodes";
+			Sleep(800);
+			cout << ".";
+			Sleep(800);
+			cout << ".";
+			Sleep(800);
+			cout << ".";
+			cout << "\n Cleaning up memory";
+			Sleep(800);
+			cout << ".";
+			Sleep(800);
+			cout << ".";
+			Sleep(800);
+			cout << ".";
+			cout << "\n\n Linked list successfully deleted from existence.\n";
+		}
+
 		
 
 		void searchByIndex(int location)  // Function to display data in a specified node of the list [ O(n) ]
@@ -284,11 +322,11 @@ public:
 					{
 						found = true;
 						foundCount++;
-						Sleep(600);
+						Sleep(200);
 						cout << "\n '" << data << "' found at index '" << i << "'.";
-						Sleep(700);
-						cout << "\n Continuing search to look for duplicates..";
-						Sleep(2000);
+						Sleep(200);
+						cout << "\n\n Continuing search to look for duplicates..";
+						Sleep(600);
 						if (ptr->next == NULL)
 							break;
 					}
@@ -340,15 +378,19 @@ public:
 
 			system("cls");
 			cout << "\n ############### DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ###############\n\n"
-				<< "                                     ~ Version 2.0 ~\n\n"
+				<< "                                     ~ Version 3.0 ~\n"
+				<< "                                          @sqazi \n\n"
 				<< "                          CURRENT MODE OF OPERATION :: " << operatingType << "\n";
-			cout << "\n Press 1-6 to choose option:\n\n"
+			cout << "\n Press 1-9 to choose option:\n\n"
 				<< "\t\t 1 - Insertion operations\n"
 				<< "\t\t 2 - Deletion operations\n"
 				<< "\t\t 3 - Search operations\n"
 				<< "\t\t 4 - Delete current linked list\n"
 				<< "\t\t 5 - Display current linked list\n"
-				<< "\t\t 6 - Change selected Data Structure type\n ";
+				<< "\t\t 6 - Change selected Data Structure type\n"
+				<< "\t\t 7 - Write current linked list to a file\n"
+				<< "\t\t 8 - Load a linked list from a file\n"
+				<< "\t\t 9 - Exit\n ";
 			char c = _getch();
 			switch (c)
 			{
@@ -376,44 +418,12 @@ public:
 				}
 				else
 				{
-					cout << "\n This action is IRREVERSIBLE. Proceed (y/n)?";
-					char c = _getch();
-					if (c == 'n' || c == 'N')
-						commenceOperation();
-					else if (c != 'y' && c != 'Y')
-					{
-						cout << "\n Invalid input. ";
-						Sleep(700);
-						commenceOperation();
-					}
-					Node* temp = head;
-					while (temp != NULL)
-					{
-						Node* first = temp;
-						temp = temp->next;
-						head = temp;
-						delete first;
-					}
-					cout << "\n Deleting nodes";
-					Sleep(800);
-					cout << ".";
-					Sleep(800);
-					cout << ".";
-					Sleep(800);
-					cout << ".";
-					cout << "\n Cleaning up memory";
-					Sleep(800);
-					cout << ".";
-					Sleep(800);
-					cout << ".";
-					Sleep(800);
-					cout << ".";
-					cout << "\n\n Linked list successfully deleted from existence.\n";
-					_getch();
+					deleteList();
+					Sleep(2000);
 					commenceOperation();
-					break;
 				}
-
+				break;
+					
 			case '5':
 				printList();
 				_getch();
@@ -421,14 +431,28 @@ public:
 
 			case '6':
 				main();
+				break;
+
+			case '7':
+				writeToFile();
+				Sleep(2000);
+				commenceOperation();
+
+			case '8':
+				loadFromFile();
+				Sleep(2000);
+				commenceOperation();
+				break;
+
+			case '9':
+				exit(0);
 
 			default:
-				cout << "\n Press 1-5 only. <Press any Key> ";
+				cout << "\n Press 1-9 only. <Press any Key> ";
 				_getch();
 				commenceOperation();
 			}
 		}
-
 
 		void insertionMenu()
 		{
@@ -598,6 +622,55 @@ public:
 			std::cout << "\n\n -------------------------------------------------------------------------------------\n";
 		}
 
+		void writeToFile()
+		{
+			if (head == NULL)
+			{
+				cout << "\n No list already in memory.\n";
+				_getch();
+				commenceOperation();
+			}
+			cout << "\n Enter name of the file to save: ";
+			std::string fileName;
+			cin >> fileName;
+			fileName.append(".txt");
+			std::ofstream outFile(fileName);
+
+			for (Node* temp = head; temp != NULL; temp = temp->next)
+				outFile << temp->nodeData <<"\n";
+
+			cout << "\n Current linked-list written to file " << fileName << " ";
+		}
+
+		void loadFromFile()
+		{
+			cout << "\n Enter name of the file to load: ";
+			std::string fileName;
+			cin >> fileName;
+			fileName.append(".txt");
+			std::ifstream inFile(fileName);
+			if (!inFile)
+			{
+				cout << "\n File Not found. \n";
+				Sleep(1000);
+				commenceOperation();
+			}
+			Generic data;
+			while (inFile >> data)
+			{
+				Sleep(150);
+				cout << "\n Reading data.. " << data;
+				insertAtEnd(data);
+			}
+
+			if (head == NULL)
+			{
+				cout << "\n An error occured while loading file " << fileName << " :"
+					<<"\n File's contents do not match Mode of Operation. ";
+				Sleep(4900);
+				commenceOperation();
+			}
+			cout << "\n Linked-list succssfully loaded from " << fileName << " ";
+		}
 	};
 };
-
