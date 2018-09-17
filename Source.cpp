@@ -1,11 +1,10 @@
 
 
-// Source.cpp
+// templatized_linked_list.h
 // Author: Siraj Qazi
 // Templatized Linked List v2.0
-// Dated: September 15th, 2018 2:49AM
+// Dated: September 15th, 2018 1:16PM
 // Main() File
-
 
 
 
@@ -14,11 +13,26 @@
 #include "templatized_linked_list.h"
 using namespace std;
 
+void launchTemplatizedLinkedList(void);
+
 int main()
 {
 	system("cls");
-	cout << "\n ################# DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ################\n";
-	cout << "                                     ~ Version 2.0 ~\n\n"
+		cout << "\n Please set your command-window font size to 32 for best experience."
+			<< "\n\n Click Window Icon > Properties > Font > 32 > OK"
+			<< "\n Maximize window to Full Screen afterwards."
+			<< "\n\n Press any key once you're done. ";
+		_getch();
+	
+		launchTemplatizedLinkedList();  // Launch the Program
+}
+
+void launchTemplatizedLinkedList()
+{
+	system("cls");
+	cout << "\n ################# DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ################\n\n";
+	cout << "                                     ~ Version 3.0 ~\n"
+		<< "                                          @sqazi \n\n"
 		<< " ########################################################################################\n";
 	cout << "\n Welcome. Choose your linked-list data type: \n";
 	cout << "\n Press 1-5 to select option:\n\n"
@@ -63,7 +77,6 @@ int main()
 	{
 		cout << "\n Please press 1-5. ";
 		_getch();
-		main();
+		launchTemplatizedLinkedList();
 	}
-
 }

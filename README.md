@@ -22,3 +22,14 @@ Sept 15, 2018, 2:49AM PST
    Note: CIM requires the number of entries in advance that will be continuously input.
    - UI Changes
    - Minor bug fixes
+   
+   
+   Build 3.0:
+Sept 15, 2018 1:16PM PST
+
+   - [FEATURE UPDATE] File I/O introduced. Now linked lists can be written to and read from a file.
+   - File data validity check: A file with string data will not be read when in <INT> or <FLOAT> mode of      operation.
+   - Separated complete list deletion to an independent deleteList() Function.
+   - Cleaned main() function to do only minimal tasks.
+   - UI Changes
+   - Bug Fixes
