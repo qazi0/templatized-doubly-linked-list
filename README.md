@@ -33,3 +33,13 @@ Sept 15, 2018 1:16PM PST
    - Cleaned main() function to do only minimal tasks.
    - UI Changes
    - Bug Fixes
+
+
+
+Build 3.1
+Sept 16, 2018 10:01PM PST
+
+   - [ARCHITECTURAL CHANGE] Now a doubly-linked list. Nodes can be traversed from start to end or from end to start.
+   To use the doubly-linked list functions (like reverse-traversal), #include the doubly_linked_list.h file in the Source.cpp file.
+   - Added function to print list in reverse (Due to the previous pointer)
+   - Fixes and improvements
