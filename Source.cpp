@@ -3,14 +3,14 @@
 // Source.cpp
 // Author: Siraj Qazi
 // Templatized Linked List v3.1
-// Dated: September 16th, 2018 10:01PM
+// Dated: October 3rd, 2018 11:46PM
 // Main() File
 
 
 
 #include <iostream>
 #include <string>
-#include "doubly_templatized_linked_list.h"
+#include "circular_doubly_templatized_linked_list.h"
 using namespace std;
 
 void launchTemplatizedLinkedList(void);
@@ -32,7 +32,7 @@ void launchTemplatizedLinkedList()
 	system("cls");
 	system("color 0a");
 	cout << "\n ################# DYNAMIC TEMPLATIZED LINKED-LIST IMPLEMENTATION IN C++ ################\n\n";
-	cout << "                                     ~ Version 3.1 ~\n"
+	cout << "                                     ~ Version 3.1c ~\n"
 		<< "                                          @sqazi \n\n"
 		<< " ########################################################################################\n";
 	cout << "\n Welcome. Choose your linked-list data type: \n";

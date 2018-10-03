@@ -36,7 +36,14 @@ Sept 15, 2018 1:16PM PST
 Build 3.1
 Sept 16, 2018 10:01PM PST
 
-   - [ARCHITECTURAL CHANGE] Now a doubly-linked list. Nodes can be traversed from start to end or from end to start.
+   - [STRUCTURAL CHANGE] Now a doubly-linked list. Nodes can be traversed from start to end or from end to start.
    To use the doubly-linked list functions (like reverse-traversal), #include the doubly_linked_list.h file in the Source.cpp file.
    - Added function to print list in reverse (Due to the _previous pointer)
    - Fixes and improvements
+
+Build 3.1c
+October 3rd, 2018 11:46PM PST
+
+  - [STRUCTURAL CHANGE] Now a circular-doubly-linked-list (3.1c).
+  - Print list in circular mode function added
+  - Out-of-bound error fixes
