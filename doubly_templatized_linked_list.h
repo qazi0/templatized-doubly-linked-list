@@ -14,7 +14,6 @@
 #include <fstream>
 #include <conio.h>
 #include <Windows.h>
-#pragma warning(suppress: 6031)
 
 template<typename Generic>          // Templatizing the class to make it Generic
 class Node
