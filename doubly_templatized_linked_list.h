@@ -2,14 +2,14 @@
 
 // doubly_templatized_linked_list.h
 // Author: Siraj Qazi
-// Templatized Linked List v3.1
-// Dated: September 16th, 2018 10:01PM
+// Co-Author: Javaria Ghafoor
+// Templatized Linked List v4.2φ
+// Dated: November 5th, 2018 10:26PM
 // Class <Generic>Node's class definition header file
 
-
-
+#include "input.h"
 #include <iostream>
-#include <typeinfo>
+//#include <typeinfo>
 #include <string>
 #include <fstream>
 #include <conio.h>
@@ -19,12 +19,13 @@ template<typename Generic>          // Templatizing the class to make it Generic
 class Node
 {
 public:
-	Node(Generic input) : nodeData(input),next(NULL),previous(NULL) {}
+	Node(Generic input) : nodeData(input), next(NULL), previous(NULL) {}
 	Generic nodeData;               // Generic object nodeData
 	Node* next;                     // (traditional) next pointer in a Node
 	Node* previous;                // Doubly linked
 	class LinkedList               // Nested Class LinkedList to apply same templatization to this class
 	{
+		Input J;                   //instance of class Input to tackle all inputs
 	public:
 		LinkedList() :head(NULL), tail(NULL), nodeCount(0) {}
 		Node* head;                 // Node* pointer to the first node
@@ -32,39 +33,73 @@ public:
 		int nodeCount;              // To keep track of total nodes (helps in bounds checking)
 		char operationMode;         // Store current operation mode of Linked List (int, float, char, etc)
 
-		/*
-		void checkInputType(Generic input)
+									/*
+									void checkInputType(Generic input)
+									{
+									bool valid = false;
+									const char* strType = typeid(input).name();   // Extract user input type (at runtime)
+									string inputTypeInString((LPCTSTR)strType);
+									}
+									*/
+
+									//void commenceOperation(void);                     // Chief Operation Function
+
+									//void insertionMenu(void);                         // INSERTION OPERATIONS 
+									//void insertAtStart(Generic);
+									//void insertAtEnd(Generic);
+									//void insertAtLocation(Generic, int);
+									//void continuousInputMode(void);
+
+									//void deletionMenu(void);                         // DELETION OPERATIONS 
+									//void deleteFirstNode(void);
+									//void deleteLastNode(void);
+									//void deleteSpecificNode(int);
+									//void deleteSpecificValue(Generic);
+									//void deleteList(void);
+
+									//void searchMenu(void);                           // SEARCH OPERATIONS
+									//void searchByIndex(int);
+									//void searchByValue(Generic);
+
+									//void printList(void);                            // PRINT OPERATIONS
+									//void printReversedList(void);
+
+									//void writeToFile(void);                          // FILE I/O OPERATIONS
+									//void readFromFile(void);
+
+		void Input(Generic& input, char oM)     
+			//funtion to take Generic input
+			//operationMode oM helps to decide which type of input to tackle
 		{
-			bool valid = false;
-			const char* strType = typeid(input).name();   // Extract user input type (at runtime)
-			string inputTypeInString((LPCTSTR)strType);
+			Generic var;
+			switch (oM)
+			{
+			case '1':
+				input = J.Int();
+				break;
+			case '2':
+				input = J.Float();
+				break;
+			case '3':
+				input = J.Char();
+				break;
+			case '4':
+				std::cin >> input;
+				break;
+			case '5':
+				input = J.Bool();
+				break;
+			default:
+				cout << endl << " You have entered a RED ZONE";
+				for (int i = 0; i < 3; i++)
+					cout << ".";
+				cout << endl << " Exiting the program";
+				for (int i = 0; i < 3; i++)
+					cout << ".";
+				Sleep(1000);
+				exit(1);
+			}
 		}
-		*/
-
-		//void commenceOperation(void);                     // Chief Operation Function
-
-		//void insertionMenu(void);                         // INSERTION OPERATIONS 
-		//void insertAtStart(Generic);
-		//void insertAtEnd(Generic);
-		//void insertAtLocation(Generic, int);
-		//void continuousInputMode(void);
-
-		//void deletionMenu(void);                         // DELETION OPERATIONS 
-		//void deleteFirstNode(void);
-		//void deleteLastNode(void);
-		//void deleteSpecificNode(int);
-		//void deleteSpecificValue(Generic);
-		//void deleteList(void);
-
-		//void searchMenu(void);                           // SEARCH OPERATIONS
-		//void searchByIndex(int);
-		//void searchByValue(Generic);
-
-		//void printList(void);                            // PRINT OPERATIONS
-		//void printReversedList(void);
-
-		//void writeToFile(void);                          // FILE I/O OPERATIONS
-		//void readFromFile(void);
 
 		void insertAtStart(Generic input)     // Function to insert nodes to the left of the list [ O(1) ]
 		{
@@ -153,12 +188,12 @@ public:
 			cout << "\n\n Keep entering successive node's data continuosly."
 				<< "\n Use <spacebar> or <enter> to identify separate nodes data."
 				<< "\n\n CIM requires the size of the list to operate: ";
-			cin >> size;
+			size = J.Int();
 			cout << "\n Begin entering data: ";
 			for (int i = 0; i < size; ++i)
 			{
 				cout << "\n";
-				cin >> var;
+				Input(var, operationMode);
 				insertAtEnd(var);
 			}
 			if (head != NULL && tail != NULL)
@@ -244,7 +279,7 @@ public:
 
 				Node* ptr;            //DOUBLY-LINKED IMPLEMENTATION    
 				int i;
-				for (ptr = head, i = 1; ptr->next != NULL && i < location ; ptr = ptr->next, ++i) {}
+				for (ptr = head, i = 1; ptr->next != NULL && i < location; ptr = ptr->next, ++i) {}
 				ptr->previous->next = ptr->next;
 				ptr->next->previous = ptr->previous;
 				cout << "\n Node " << location << " with data '" << ptr->nodeData << "' deleted successfully. ";
@@ -267,7 +302,7 @@ public:
 				{
 					ptr = ptr->next;
 				}
-				if (ptr->next == NULL && ptr->nodeData!=input)
+				if (ptr->next == NULL && ptr->nodeData != input)
 				{
 					cout << "\n Data " << input << " not found in the list. ";
 					Sleep(2000);
@@ -290,26 +325,26 @@ public:
 				/*Node* ptr = head;
 				while (ptr->next != NULL && ptr->next->nodeData != input)
 				{
-					ptr = ptr->next;
+				ptr = ptr->next;
 				}
 				if (ptr->next == NULL)
 				{
-					cout << "\n Data " << input << " not found in the list. ";
-					Sleep(2000);
-					deletionMenu();
+				cout << "\n Data " << input << " not found in the list. ";
+				Sleep(2000);
+				deletionMenu();
 				}
 
 				else
 				{
-					Node* toBeDeleted = ptr->next;
-					ptr->next = ptr->next->next;
-					cout << "\n Node with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
-					delete toBeDeleted;
+				Node* toBeDeleted = ptr->next;
+				ptr->next = ptr->next->next;
+				cout << "\n Node with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
+				delete toBeDeleted;
 				}*/
 				/*for (ptr = head, i = 1; ((ptr->next != NULL && ptr->next->nodeData !=input) && i <= nodeCount); ++i) {}
 
 				cout << "\n Node " << i << " with data '" << toBeDeleted->nodeData << "' deleted successfully. ";
-				 */
+				*/
 			}
 		}
 
@@ -349,8 +384,6 @@ public:
 			cout << ".";
 			cout << "\n\n Linked list successfully deleted from existence.\n";
 		}
-
-
 
 		void searchByIndex(int location)  // Function to display data in a specified node of the list [ O(n) ]
 		{
@@ -412,9 +445,9 @@ public:
 						cout << "\n No search results for '" << data << "' ";
 					/*else
 					{
-						cout << "\n\n Found " << foundCount << " matches to '" << data << "'.";
-						_getch();
-						searchMenu();
+					cout << "\n\n Found " << foundCount << " matches to '" << data << "'.";
+					_getch();
+					searchMenu();
 					} */
 				}
 				else
@@ -526,7 +559,7 @@ public:
 				commenceOperation();
 				break;
 
-			case ('x'||'X'):
+			case ('x' || 'X'):
 				exit(0);
 
 			default:
@@ -552,7 +585,7 @@ public:
 			{
 			case '1':
 				cout << "\n Enter data to store at the beginning of the linked list: ";
-				cin >> var;
+				Input(var, operationMode);
 				insertAtStart(var);
 				Sleep(2000);
 				commenceOperation();
@@ -560,7 +593,7 @@ public:
 
 			case '2':
 				cout << "\n Enter data to append to the end of the linked list: ";
-				cin >> var;
+				Input(var, operationMode);
 				insertAtEnd(var);
 				Sleep(2000);
 				commenceOperation();
@@ -569,10 +602,10 @@ public:
 			case '3':
 				cout << "\n Enter location where you want to insert a new node: ";
 				int loc;
-				cin >> loc;
+				loc = J.Int();
 				cin.clear();
 				cout << "\n Enter data to store in the new node at location " << loc << " :";
-				cin >> var;
+				Input(var, operationMode);
 				insertAtLocation(var, loc);
 				Sleep(2000);
 				commenceOperation();
@@ -626,7 +659,7 @@ public:
 			case '3':
 				cout << "\n Enter location where you want to delete a node: ";
 				int loc;
-				cin >> loc;
+				loc = J.Int();
 				cin.clear();
 				deleteSpecificNode(loc);
 				nodeCount--;
@@ -636,7 +669,7 @@ public:
 
 			case '4':
 				cout << "\n Enter the node data you want to delete: ";
-				cin >> var;
+				Input(var, operationMode);
 				cin.clear();
 				deleteSpecificValue(var);
 				nodeCount--;
@@ -665,12 +698,13 @@ public:
 				<< "\t\t 3 > Back to Main Menu\n";
 			char c = _getch();
 			Generic var;
+			int index;
 			switch (c)
 			{
 			case '1':
-				int index;
+				
 				cout << "\n Enter (integer) index to check value at it: ";
-				cin >> index;
+				index = J.Int();
 				searchByIndex(index);
 				Sleep(4000);
 				commenceOperation();
@@ -678,7 +712,7 @@ public:
 
 			case '2':
 				cout << "\n Enter data to search in the linked list: ";
-				cin >> var;
+				Input(var, operationMode);
 				searchByValue(var);
 				Sleep(4000);
 				commenceOperation();
@@ -699,7 +733,7 @@ public:
 		{
 			std::cout << "\n\n -------------------------------- CURRENT LINKED LIST --------------------------------\n\n\t";
 			for (Node* iter = head; iter != NULL; iter = iter->next)
-			cout << " " << iter->nodeData;
+				cout << " " << iter->nodeData;
 			std::cout << "\n\n -------------------------------------------------------------------------------------\n";
 		}
 
@@ -722,7 +756,7 @@ public:
 			}
 			cout << "\n Enter name of the file to save: ";
 			std::string fileName;
-			cin >> fileName;
+			std::cin >> fileName;
 			fileName.append(".txt");
 			std::ofstream outFile(fileName);
 
@@ -736,7 +770,7 @@ public:
 		{
 			cout << "\n Enter name of the file to load: ";
 			std::string fileName;
-			cin >> fileName;
+			std::cin >> fileName;
 			fileName.append(".txt");
 			std::ifstream inFile(fileName);
 			if (!inFile)
