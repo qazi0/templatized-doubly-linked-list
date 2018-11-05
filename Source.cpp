@@ -2,8 +2,8 @@
 
 // Source.cpp
 // Author: Siraj Qazi
-// Templatized Linked List v3.1
-// Dated: September 16th, 2018 10:01PM
+// Templatized Linked List v4.2φ
+// Dated: November 5th, 2018 10:26PM
 // Main() File
 
 
