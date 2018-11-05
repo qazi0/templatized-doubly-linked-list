@@ -43,3 +43,14 @@ Sept 16, 2018 10:01PM PST
    To use the doubly-linked list functions (like reverse-traversal), #include the doubly_linked_list.h file in the Source.cpp file.
    - Added function to print list in reverse (Due to the previous pointer)
    - Fixes and improvements
+   
+   
+
+Build 4.2φ
+Nov 5, 2018 10:26PM PST
+
+   - Added Input and Check header files
+   - Made crash prone (user is now bound to give correct input as per input type selected)
+   - Added an object of type Input and a function void input(Generic, char) in nested class LinkedList of templated Generic class Node in doubly_linked_list.h file
+   - std::cin replaced with function input() at several locations in doubly_linked_list.h file
+   - Minor Bug Fixes
