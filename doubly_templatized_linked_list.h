@@ -9,7 +9,6 @@
 
 
 #include <iostream>
-#include <typeinfo>
 #include <string>
 #include <fstream>
 #include <conio.h>
