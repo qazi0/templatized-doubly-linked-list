@@ -2,7 +2,6 @@
 C++ Implementation of a doubly-linked list data structure, made generic by use of template classes.
 
 Dynamic Templatized Linked List v1.0
-By Siraj Qazi
 -------------------------------------
 Changelog Updated on Sept 15, 2018
 
